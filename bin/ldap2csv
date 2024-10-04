@@ -49,7 +49,7 @@ def convert(out_file, msg_file, ldap_data, config):
 def main():
 
   DESCRIPTION = "linuxmuster.net LDAP to CSV converter"
-  VERSION     = "1.1.0"
+  VERSION     = "1.1.1"
 
   parser = argparse.ArgumentParser(description = DESCRIPTION)
 
@@ -61,6 +61,7 @@ def main():
   parser.add_argument(
     "-c", "--config",
     type = argparse.FileType('r'),
+    required = True,
     nargs = "+",
     help = "configuration file")
 
