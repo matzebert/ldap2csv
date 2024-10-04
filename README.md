@@ -7,9 +7,9 @@ Tool that reads data via LDAP and writes the query result to a CSV file.
 The example configurations in the `./etc` directory are suitable for a typical linuxmuster.net setup.
 
 
-## Configuration
+## LDAP configuration
 
-Configurations are stored in YAML files. The `-c` option is required and takes at least one configuration file name. When using more than one file, later values overwrite previous ones.
+LDAP configurations are stored in YAML files. The `-c` option is required and takes at least one configuration file name. When using more than one file, later values overwrite previous ones.
 
 The following table shows the keys available.
 
@@ -31,7 +31,7 @@ The tool writes a CSV file with the following format:
   - The columns are separated by `;`.
   - The cell values are not delimited (by quotes).
 
-This beaviour can not be configured in the current version.
+This behaviour can not be configured in the current version.
 
 
 ## Examples
