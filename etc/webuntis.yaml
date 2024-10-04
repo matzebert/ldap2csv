@@ -1,0 +1,11 @@
+search-base:   OU=students,OU=default-school,OU=SCHOOLS,DC=lmn,DC=schule,DC=de
+search-filter: "(&(objectClass=person)(!(sophomorixAdminClass=attic)))"
+
+attributes:
+  - sophomorixAdminClass
+  - sn
+  - givenName
+  - sophomorixBirthdate
+  - sAMAccountName
+  - sophomorixRole
+  - sophomorixUnid

@@ -1,0 +1,83 @@
+#!/usr/bin/python3
+
+import argparse
+import csv
+import yaml
+import ldap
+import sys
+
+
+def read_config(config_files):
+
+  config = dict()
+  for config_file in config_files:
+    with config_file:
+      config.update(yaml.safe_load(config_file))
+
+  return config
+
+
+def query_ldap(config):
+
+  ldap_data = []
+
+  conn = ldap.initialize(config['host'])
+  conn.simple_bind_s(config['bind-user'], config['bind-passwd'])
+  ldap_result = conn.search_s(config['search-base'], ldap.SCOPE_SUBTREE, 
+    config['search-filter'], config['attributes'])
+
+  for ldap_entry in ldap_result:
+    items = dict()
+    for key, val in ldap_entry[1].items():
+      val = val[0].decode("utf-8")
+      items[key] = val
+    ldap_data.append(items)
+
+  return ldap_data
+
+
+def convert(out_file, msg_file, ldap_data, config):
+  
+  with out_file:
+    attributes = config['attributes']
+    out_writer = csv.DictWriter(out_file, attributes, delimiter = ";")
+    for ldap_entry in ldap_data:
+      out_row = {key: ldap_entry[key] for key in attributes}
+      out_writer.writerow(out_row)
+      
+
+def main():
+
+  DESCRIPTION = "linuxmuster.net LDAP to CSV converter"
+  VERSION     = "1.1.0"
+
+  parser = argparse.ArgumentParser(description = DESCRIPTION)
+
+  parser.add_argument(
+    "--version",
+    action = "version",
+    version = VERSION)
+
+  parser.add_argument(
+    "-c", "--config",
+    type = argparse.FileType('r'),
+    nargs = "+",
+    help = "configuration file")
+
+  parser.add_argument(
+    "-o", "--output",
+    type = argparse.FileType('w'),
+    default = "-",
+    help = "CSV file")
+
+  args = parser.parse_args()
+  config = read_config(args.config)
+
+  ldap_data = []
+  ldap_data = query_ldap(config)
+  
+  convert(args.output, sys.stderr, ldap_data, config)
+
+
+if __name__ == '__main__':
+  main()

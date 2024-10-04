@@ -1,0 +1,3 @@
+host:        ldaps://ldap.schule.de
+bind-user:   CN=bind-user,OU=Management,OU=default-school,OU=SCHOOLS,DC=lmn,DC=schule,DC=de
+bind-passwd: TopSecret!
