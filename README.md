@@ -7,6 +7,22 @@ Tool that reads data via LDAP and writes the query result to a CSV file.
 The example configurations in the `./etc` directory are suitable for a typical linuxmuster.net setup.
 
 
+## Configuration
+
+Configurations are stored in YAML files. The `-c` option is required and takes at least one configuration file name. When using more than one file, later values overwrite previous ones.
+
+The following table shows the keys available.
+
+| Key             | Description                                    | Example                                                                          |
+| --------------- | ---------------------------------------------- | -------------------------------------------------------------------------------- |
+| `host`          | URL of the LDAP host                           | `ldaps://ldap.schule.de`                                                         |
+| `bind-user`     | full DN of the bind user                       | `CN=bind-user,OU=Management,OU=default-school,OU=SCHOOLS,DC=lmn,DC=schule,DC=de` |
+| `bind-passwd`   | password for the bind user                     | `TopSecret!`                                                                     |
+| `search-base`   | search base in the LDAP tree                   | `OU=students,OU=default-school,OU=SCHOOLS,DC=lmn,DC=schule,DC=de`                |
+| `search-filter` | search filter for the LDAP query               | `(&(objectClass=person)(!(sophomorixAdminClass=attic)))`                         |
+| `attributes`    | LDAP attributes to be included in the CSV file | `[sAMAccountName, sn, givenName]`                                                |
+
+
 ## Examples
 
 ``` bash
